@@ -17,14 +17,6 @@ $font-family-sans-serif: 'Roboto', sans-serif;
   border-radius: 0 !important;
   border-left-width: 0;
   border-right-width: 0;
-
-  &:first-of-type {
-    border-top-width: 0;
-  }
-
-  &:last-of-type {
-    border-bottom-width: 0;
-  }
 }
 
 .container {
