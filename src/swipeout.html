@@ -1,0 +1,13 @@
+<template class="swipeout ${direction === 'ltr' ? 'swipeout--ltr' : ''} ${direction === 'rtl' ? 'swipeout--rtl' : ''}">
+  <div class="swipeout__left" ref="left">
+    <slot name="left"></slot>
+  </div>
+
+  <div class="swipeout__right" ref="right">
+    <slot name="right"></slot>
+  </div>
+
+  <div class="swipeout__overlay ${isTransitioning ? 'swipeout__overlay--transitioning' : ''}" ref="overlay">
+    <slot name="overlay"></slot>
+  </div>
+</template>

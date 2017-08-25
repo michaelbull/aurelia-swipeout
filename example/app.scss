@@ -1,0 +1,85 @@
+$font-family-sans-serif: 'Roboto', sans-serif;
+
+@import '~bootstrap/scss/bootstrap';
+@import '../src/swipeout';
+
+// overwrite some bootstrap styles
+
+.list-group {
+  list-style-type: none;
+  margin-bottom: 5em;
+}
+
+.list-group-item {
+  align-items: flex-start;
+  padding: 0;
+
+  border-radius: 0 !important;
+  border-left-width: 0;
+  border-right-width: 0;
+
+  &:first-of-type {
+    border-top-width: 0;
+  }
+
+  &:last-of-type {
+    border-bottom-width: 0;
+  }
+}
+
+.container {
+  padding-right: 0;
+  padding-left: 0;
+}
+
+.my-4 {
+  padding: 0 10px;
+}
+
+// add an email template for the example page
+
+
+.email__info {
+  display: flex;
+  justify-content: space-between;
+}
+
+.email__author {
+  font-weight: 500;
+  margin: 0;
+}
+
+.email__date {
+  font-size: 0.9375rem;
+  margin: 0;
+  color: #9e9e9e;
+}
+
+.email__title {
+  font-size: 0.9375rem;
+  margin: 0;
+}
+
+.email__body {
+  font-size: 0.9375rem;
+  margin: 0;
+  color: #949494;
+}
+
+// add custom swipeout action colours
+
+.swipeout__overlay {
+  padding: 0.75rem 1.25rem;
+}
+
+.swipeout__action--unread {
+  background-color: #007aff;
+}
+
+.swipeout__action--trash {
+  background-color: #ff3b30;
+}
+
+.swipeout__action--flag {
+  background-color: #ff9500;
+}
