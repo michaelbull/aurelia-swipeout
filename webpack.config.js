@@ -12,8 +12,8 @@ module.exports = (env) => {
 
         output: {
             path: path.resolve(__dirname, 'dist'),
-            filename: '[name].js',
-            chunkFilename: '[name].js'
+            filename: '[name]-[hash].js',
+            chunkFilename: '[name]-[chunkhash].js'
         },
 
         resolve: {
@@ -70,7 +70,7 @@ module.exports = (env) => {
 
         plugins: [
             new AureliaPlugin(),
-            new ExtractTextPlugin('[name].css'),
+            new ExtractTextPlugin('[name]-[contenthash].css'),
             new HtmlWebpackPlugin({
                 template: 'example/index.html'
             })
