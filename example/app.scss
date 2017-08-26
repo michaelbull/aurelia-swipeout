@@ -33,6 +33,7 @@ $font-family-sans-serif: 'Roboto', sans-serif;
 .email__info {
   display: flex;
   justify-content: space-between;
+  line-height: 1.2;
 }
 
 .email__author {
@@ -52,6 +53,7 @@ $font-family-sans-serif: 'Roboto', sans-serif;
 }
 
 .email__body {
+  line-height: 1.3;
   font-size: 0.9375rem;
   margin: 0;
   color: #949494;
@@ -60,7 +62,12 @@ $font-family-sans-serif: 'Roboto', sans-serif;
 // add custom swipeout action colours
 
 .swipeout__overlay {
-  padding: 0.75rem 1.25rem;
+  padding: {
+    top: 10px;
+    right: 20px;
+    left: 20px;
+    bottom: 8px;
+  }
 }
 
 .swipeout__action--unread {
