@@ -21,7 +21,7 @@ export class Swipeout implements ComponentAttached, ComponentDetached {
      * releasing the swipe.
      */
     @bindable({ defaultBindingMode: bindingMode.oneWay })
-    threshold: number = 20;
+    threshold: number = 40;
 
     private left: HTMLDivElement;
     private right: HTMLDivElement;
@@ -132,9 +132,17 @@ export class Swipeout implements ComponentAttached, ComponentDetached {
 
         let newLeft: number = this.startLeft;
         if (min !== 0 && this.startLeft === min && event.deltaX >= this.threshold) {
-            newLeft = 0;
+            if (max !== 0 && currentLeft >= this.threshold) {
+                newLeft = max;
+            } else {
+                newLeft = 0;
+            }
         } else if (max !== 0 && this.startLeft === max && event.deltaX <= -this.threshold) {
-            newLeft = 0;
+            if (min !== 0 && currentLeft <= -this.threshold) {
+                newLeft = min;
+            } else {
+                newLeft = 0;
+            }
         } else if (this.startLeft === 0 && currentLeft >= this.threshold) {
             newLeft = max;
         } else if (this.startLeft === 0 && currentLeft <= -this.threshold) {
