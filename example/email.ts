@@ -1,8 +1,8 @@
 export class Email {
-    author: string;
-    date: string;
-    title: string;
-    body: string;
+    readonly author: string;
+    readonly date: string;
+    readonly title: string;
+    readonly body: string;
 
     constructor(author: string, date: string, title: string, body: string) {
         this.author = author;
