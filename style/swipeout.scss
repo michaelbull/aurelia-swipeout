@@ -38,6 +38,7 @@ $swipeout-action-background: #C7C7CC !default;
 
 .swipeout__action {
   display: table;
+  table-layout: fixed;
 
   width: $swipeout-action-width;
   height: 100%;
