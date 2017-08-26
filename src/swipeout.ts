@@ -146,7 +146,7 @@ export class Swipeout implements ComponentAttached, ComponentDetached {
     }
 
     private startListener: HammerListener = (event: HammerInput) => {
-        if (event.deltaY >= -10 && event.deltaY <= 10) {
+        if (event.deltaY >= -5 && event.deltaY <= 5) {
             this.startLeft = this.distanceSwiped();
             this.isActive = true;
         }
