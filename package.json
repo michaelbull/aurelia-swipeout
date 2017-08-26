@@ -1,17 +1,42 @@
 {
   "name": "aurelia-swipeout",
   "version": "0.0.0",
-  "description": "Aurelia swipeout.",
-  "main": "src/index.ts",
+  "description": "A custom element for iOS style swipeout actions, backed by Hammer.js",
+  "keywords": [
+    "aurelia",
+    "custom",
+    "element",
+    "swipe",
+    "swipeout",
+    "hammer"
+  ],
+  "homepage": "https://github.com/michaelbull/aurelia-swipeout",
+  "bugs": {
+    "url": "https://github.com/michaelbull/aurelia-swipeout/issues"
+  },
+  "license": "ISC",
+  "author": {
+    "name": "Michael Bull",
+    "url": "https://www.michael-bull.com"
+  },
   "files": [
+    "dist",
     "src",
     "style"
   ],
+  "main": "dist/index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/michaelbull/aurelia-swipeout"
+  },
   "scripts": {
-    "clean": "rimraf dist",
     "start": "webpack-dev-server --env=dev --inline --hot",
     "build": "webpack --env=prod",
-    "deploy": "npm run clean && npm run build && push-dir --dir=dist --branch=gh-pages"
+    "tsc": "tsc --project tsconfig.build.json",
+    "sass": "node-sass style/swipeout.scss dist/swipeout.css",
+    "postcss": "postcss dist/*.css --dir dist",
+    "dist": "rimraf dist && npm run tsc && npm run sass && npm run postcss",
+    "deploy": "rimraf build && npm run build && push-dir --dir=build --branch=gh-pages"
   },
   "dependencies": {
     "hammerjs": "2.0.8"
@@ -32,10 +57,13 @@
     "awesome-typescript-loader": "3.2.3",
     "bootstrap": "4.0.0-alpha.6",
     "css-loader": "0.28.5",
+    "cssnano": "3.10.0",
+    "cssnano-preset-advanced": "4.0.0-rc.2",
     "extract-text-webpack-plugin": "3.0.0",
     "html-loader": "0.5.1",
     "html-webpack-plugin": "2.30.1",
     "node-sass": "4.5.3",
+    "postcss-cli": "4.1.0",
     "push-dir": "0.4.1",
     "rimraf": "2.6.1",
     "sass-loader": "6.0.6",

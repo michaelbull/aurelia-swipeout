@@ -21,4 +21,5 @@
 npm-debug.log*
 
 # Distribution
+/build
 /dist
