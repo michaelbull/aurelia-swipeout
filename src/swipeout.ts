@@ -11,17 +11,23 @@ import {
 } from 'aurelia-framework';
 import * as Hammer from 'hammerjs';
 
-type Direction = 'rtl' | 'ltr' | null;
+function translateX(x: number): string {
+    if (x === 0) {
+        return '';
+    } else {
+        return `translate3d(${x}px, 0, 0)`;
+    }
+}
 
 @autoinject()
 export class Swipeout implements ComponentAttached, ComponentDetached {
 
     /**
-     * The amount of pixels that must be swiped for the menu to expand once
-     * releasing the swipe.
+     * The amount of pixels that must be swiped for the
+     * menu to expand once releasing the swipe.
      */
     @bindable({ defaultBindingMode: bindingMode.oneWay })
-    threshold: number = 40;
+    threshold: number = 45;
 
     private left: HTMLDivElement;
     private right: HTMLDivElement;
@@ -29,11 +35,10 @@ export class Swipeout implements ComponentAttached, ComponentDetached {
 
     private hammer: HammerManager;
     private startLeft: number = 0;
-    private direction: Direction = null;
     private isActive: boolean = false;
     private isTransitioning: boolean = false;
 
-    private subscription: Subscription;
+    private closeSubscription: Subscription;
 
     private readonly element: Element;
     private readonly events: EventAggregator;
@@ -44,58 +49,105 @@ export class Swipeout implements ComponentAttached, ComponentDetached {
     }
 
     attached(): void {
-        this.subscription = this.events.subscribe('swipeout:close', this.closeListener);
+        this.closeSubscription = this.events.subscribe('swipeout:close', this.closeListener);
         this.createHammer();
     }
 
     detached(): void {
-        this.subscription.dispose();
+        this.closeSubscription.dispose();
         this.hammer.destroy();
     }
 
     private createHammer(): void {
         this.hammer = new Hammer(this.element as HTMLElement);
-        this.hammer.get('pan').set({ direction: Hammer.DIRECTION_HORIZONTAL });
+        this.hammer.get('pan').set({ threshold: 0 });
         this.hammer.on('panstart', this.startListener);
         this.hammer.on('panleft panright', this.swipeListener);
         this.hammer.on('panend', this.stopListener);
     }
 
-    private calculateRange(): [number, number] {
-        let left: Element | null = this.left.firstElementChild;
-        let right: Element | null = this.right.firstElementChild;
+    private actionWidths(): [number, number] {
+        let leftActions: Element | null = this.left.firstElementChild;
+        let rightActions: Element | null = this.right.firstElementChild;
 
-        let min: number = 0;
-        let max: number = 0;
+        let left: number = 0;
+        let right: number = 0;
 
-        if (left !== null) {
-            max = left.clientWidth;
+        if (leftActions !== null) {
+            left = leftActions.clientWidth;
         }
 
-        if (right !== null) {
-            min = -right.clientWidth;
+        if (rightActions !== null) {
+            right = rightActions.clientWidth;
         }
 
-        return [min, max];
+        return [left, right];
     }
 
     private changeLeft(from: number, to: number) {
-        let delta: number = (from - to);
+        let delta: number = (to - from);
 
         if (delta !== 0) {
+            let [leftActionsWidth, rightActionsWidth] = this.actionWidths();
+
             this.hammer.destroy();
             this.isTransitioning = true;
             this.overlay.addEventListener('transitionend', this.transitionEndListener);
 
             window.requestAnimationFrame(() => {
-                this.overlay.style.left = `${to}px`;
+                this.overlay.style.transform = translateX(to);
+                this.shiftLeftActions(to, leftActionsWidth);
+                this.shiftRightActions(to, rightActionsWidth);
             });
         }
     }
 
+    private shiftLeftActions(newX: number, actionsWidth: number) {
+        let actions: Element | null = this.left.firstElementChild;
+        if (actions === null) {
+            return;
+        }
+
+        let progress: number = 1 - Math.min(newX / actionsWidth, 1);
+        let deltaX: number = Math.min(newX, actionsWidth);
+        let children: HTMLCollection = actions.children;
+
+        for (let i: number = 0; i < children.length; i++) {
+            let child: HTMLElement = children[i] as HTMLElement;
+            let offsetLeft = actionsWidth - child.offsetLeft - child.offsetWidth;
+            child.style.transform = translateX(deltaX + offsetLeft * progress);
+
+            if (children.length > 1) {
+                child.style.zIndex = `${children.length - i}`;
+            }
+        }
+    }
+
+    private shiftRightActions(newX: number, actionsWidth: number) {
+        let actions: Element | null = this.right.firstElementChild;
+        if (actions === null) {
+            return;
+        }
+
+        let progress: number = 1 + Math.max(newX / actionsWidth, -1);
+        let deltaX: number = Math.max(newX, -actionsWidth);
+        let children: HTMLCollection = actions.children;
+
+        for (let i: number = 0; i < children.length; i++) {
+            let child: HTMLElement = children[i] as HTMLElement;
+            child.style.transform = translateX(deltaX - child.offsetLeft * progress);
+        }
+    }
+
+    private distanceSwiped() {
+        let overlayRect: ClientRect = this.overlay.getBoundingClientRect();
+        let elementRect: ClientRect = this.element.getBoundingClientRect();
+        return overlayRect.left - elementRect.left;
+    }
+
     private startListener: HammerListener = (event: HammerInput) => {
         if (event.deltaY >= -30 && event.deltaY <= 30) {
-            this.startLeft = this.overlay.offsetLeft;
+            this.startLeft = this.distanceSwiped();
             this.isActive = true;
         }
 
@@ -107,16 +159,18 @@ export class Swipeout implements ComponentAttached, ComponentDetached {
             return;
         }
 
-        let newX: number = this.startLeft + event.deltaX;
-        this.overlay.style.left = `${newX}px`;
+        let [leftActionsWidth, rightActionsWidth] = this.actionWidths();
 
-        if (newX > 0) {
-            this.direction = 'ltr';
-        } else if (newX < 0) {
-            this.direction = 'rtl';
-        } else {
-            this.direction = null;
+        let newX: number = this.startLeft + event.deltaX;
+        if (newX < -rightActionsWidth) {
+            newX = -rightActionsWidth - Math.pow(-newX - rightActionsWidth, 0.8);
+        } else if (newX > leftActionsWidth) {
+            newX = leftActionsWidth + Math.pow(newX - leftActionsWidth, 0.8);
         }
+
+        this.overlay.style.transform = translateX(newX);
+        this.shiftLeftActions(newX, leftActionsWidth);
+        this.shiftRightActions(newX, rightActionsWidth);
     };
 
     private stopListener: HammerListener = (event: HammerInput) => {
@@ -124,28 +178,27 @@ export class Swipeout implements ComponentAttached, ComponentDetached {
             return;
         }
 
-        let oldLeft: number = this.overlay.offsetLeft;
-
+        let [leftActionsWidth, rightActionsWidth] = this.actionWidths();
+        let oldLeft: number = this.overlay.getBoundingClientRect().left;
         let currentLeft: number = this.startLeft + event.deltaX;
-        let [min, max] = this.calculateRange();
-
         let newLeft: number = this.startLeft;
-        if (min !== 0 && this.startLeft === min && event.deltaX >= this.threshold) {
-            if (max !== 0 && currentLeft >= this.threshold) {
-                newLeft = max;
+
+        if (leftActionsWidth !== 0 && this.startLeft === leftActionsWidth && event.deltaX <= -this.threshold) {
+            if (rightActionsWidth !== 0 && currentLeft <= -this.threshold) {
+                newLeft = -rightActionsWidth;
             } else {
                 newLeft = 0;
             }
-        } else if (max !== 0 && this.startLeft === max && event.deltaX <= -this.threshold) {
-            if (min !== 0 && currentLeft <= -this.threshold) {
-                newLeft = min;
+        } else if (rightActionsWidth !== 0 && this.startLeft === -rightActionsWidth && event.deltaX >= this.threshold) {
+            if (leftActionsWidth !== 0 && currentLeft >= this.threshold) {
+                newLeft = leftActionsWidth;
             } else {
                 newLeft = 0;
             }
         } else if (this.startLeft === 0 && currentLeft >= this.threshold) {
-            newLeft = max;
+            newLeft = leftActionsWidth;
         } else if (this.startLeft === 0 && currentLeft <= -this.threshold) {
-            newLeft = min;
+            newLeft = -rightActionsWidth;
         }
 
         this.isActive = false;
@@ -155,17 +208,12 @@ export class Swipeout implements ComponentAttached, ComponentDetached {
     private transitionEndListener: EventListener = (): void => {
         this.overlay.removeEventListener('transitionend', this.transitionEndListener);
         this.isTransitioning = false;
-
-        if (this.overlay.offsetLeft === 0) {
-            this.direction = null;
-        }
-
         this.createHammer();
     };
 
     private closeListener = (): void => {
         if (!this.isActive) {
-            this.changeLeft(this.overlay.offsetLeft, 0);
+            this.changeLeft(this.distanceSwiped(), 0);
         }
     };
 }

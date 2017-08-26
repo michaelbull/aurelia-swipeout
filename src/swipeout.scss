@@ -14,50 +14,35 @@ $swipeout-action-background: #C7C7CC !default;
 .swipeout__right {
   > :first-child {
     position: absolute;
-    display: flex;
-    visibility: hidden;
     height: 100%;
+    display: flex;
   }
 }
 
 .swipeout__left > :first-child {
   left: 0;
+  transform: translateX(-100%);
 }
 
 .swipeout__right > :first-child {
   right: 0;
-}
-
-.swipeout--ltr .swipeout__left,
-.swipeout--rtl .swipeout__right {
-  > :first-child {
-    visibility: visible;
-  }
+  transform: translateX(100%);
 }
 
 .swipeout__overlay {
-  position: relative;
-  will-change: left;
   width: 100%;
   background: $swipeout-overlay-background;
-}
-
-.swipeout__overlay--transitioning {
-  transition: left 400ms ease-in-out;
 }
 
 // actions
 
 .swipeout__action {
-  display: table;
   height: 100%;
-
   color: white;
   background: $swipeout-action-background;
 }
 
 .swipeout__button {
-  display: table-cell;
   box-sizing: border-box;
 
   padding: 0;
@@ -74,16 +59,13 @@ $swipeout-action-background: #C7C7CC !default;
   border: 0;
 
   text-align: center;
+  text-decoration: none;
   vertical-align: middle;
   cursor: pointer;
   -webkit-tap-highlight-color: transparent;
 
   &:focus {
     outline: 0;
-  }
-
-  &:hover {
-    text-decoration: none;
   }
 }
 
@@ -118,4 +100,18 @@ $swipeout-action-background: #C7C7CC !default;
   display: block;
   text-align: center;
   word-wrap: break-word;
+}
+
+// transition
+
+.swipeout__overlay,
+.swipeout__action {
+  will-change: transform;
+}
+
+.swipeout--transitioning {
+  .swipeout__overlay,
+  .swipeout__action {
+    transition: transform 300ms;
+  }
 }

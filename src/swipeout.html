@@ -1,4 +1,4 @@
-<template class="swipeout ${direction === 'ltr' ? 'swipeout--ltr' : ''} ${direction === 'rtl' ? 'swipeout--rtl' : ''}">
+<template class="swipeout ${isTransitioning ? 'swipeout--transitioning' : ''}">
   <div class="swipeout__left" ref="left">
     <slot name="left"></slot>
   </div>
@@ -7,7 +7,7 @@
     <slot name="right"></slot>
   </div>
 
-  <div class="swipeout__overlay ${isTransitioning ? 'swipeout__overlay--transitioning' : ''}" ref="overlay">
+  <div class="swipeout__overlay" ref="overlay">
     <slot name="overlay"></slot>
   </div>
 </template>
