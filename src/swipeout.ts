@@ -107,8 +107,7 @@ export class Swipeout implements ComponentAttached, ComponentDetached {
             return;
         }
 
-        let [min, max] = this.calculateRange();
-        let newX: number = Math.min(max, Math.max(min, this.startLeft + event.deltaX));
+        let newX: number = this.startLeft + event.deltaX;
         this.overlay.style.left = `${newX}px`;
 
         if (newX > 0) {

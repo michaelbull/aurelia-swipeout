@@ -1,10 +1,13 @@
-$swipeout-background-color: white !default;
+$swipeout-underlay-background: #E4E6E7 !default;
+$swipeout-overlay-background: white !default;
 $swipeout-action-width: 74px !default;
+$swipeout-action-background: #C7C7CC !default;
 
 .swipeout {
   position: relative;
   overflow: hidden;
   user-select: none;
+  background: $swipeout-underlay-background;
 }
 
 .swipeout__left,
@@ -36,11 +39,11 @@ $swipeout-action-width: 74px !default;
   position: relative;
   will-change: left;
   width: 100%;
-  background-color: $swipeout-background-color;
+  background: $swipeout-overlay-background;
 }
 
 .swipeout__overlay--transitioning {
-  transition: left 500ms ease-in-out;
+  transition: left 400ms ease-in-out;
 }
 
 // actions
@@ -50,7 +53,7 @@ $swipeout-action-width: 74px !default;
   height: 100%;
 
   color: white;
-  background-color: #c7c7cc;
+  background: $swipeout-action-background;
 }
 
 .swipeout__button {
