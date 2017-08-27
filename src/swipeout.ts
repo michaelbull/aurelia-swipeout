@@ -228,10 +228,10 @@ export class Swipeout implements ComponentAttached, ComponentDetached {
         } else if (this.startLeft < 0 && event.deltaX >= this.threshold) {
             // close right actions
             newLeft = 0;
-        } else if (this.startLeft === 0 && currentLeft >= this.threshold) {
+        } else if (this.startLeft === 0 && this.direction === 'ltr' && currentLeft >= this.threshold) {
             // reveal left actions
             newLeft = leftActionsWidth;
-        } else if (this.startLeft === 0 && currentLeft <= -this.threshold) {
+        } else if (this.startLeft === 0 && this.direction === 'rtl' && currentLeft <= -this.threshold) {
             // reveal right actions
             newLeft = -rightActionsWidth;
         }
