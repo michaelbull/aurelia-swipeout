@@ -1,6 +1,5 @@
 $swipeout-transition: 300ms !default;
 $swipeout-overlay-background: white !default;
-$swipeout-underlay-background: #E4E6E7 !default;
 $swipeout-action-width: 74px !default;
 $swipeout-action-background: #C7C7CC !default;
 $swipeout-action-font-color: white !default;
@@ -11,7 +10,6 @@ $swipeout-action-icon-size: 2.25rem !default;
   position: relative;
   overflow: hidden;
   user-select: none;
-  background: $swipeout-underlay-background;
 }
 
 .swipeout__left,

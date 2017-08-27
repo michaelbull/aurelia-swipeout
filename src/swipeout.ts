@@ -11,12 +11,18 @@ import {
 } from 'aurelia-framework';
 import * as Hammer from 'hammerjs';
 
+type Direction = 'rtl' | 'ltr' | null;
+
 function translateX(x: number): string {
     if (x === 0) {
         return '';
     } else {
         return `translate3d(${x}px, 0, 0)`;
     }
+}
+
+function reduceSwipe(x: number): number {
+    return Math.pow(x, 0.65);
 }
 
 @autoinject()
@@ -37,6 +43,7 @@ export class Swipeout implements ComponentAttached, ComponentDetached {
     private startLeft: number = 0;
     private isActive: boolean = false;
     private isTransitioning: boolean = false;
+    private direction: Direction = null;
 
     private closeSubscription: Subscription;
 
@@ -106,6 +113,10 @@ export class Swipeout implements ComponentAttached, ComponentDetached {
         let actions: Element | null = this.left.firstElementChild;
         if (actions === null) {
             return;
+        } else if (this.startLeft < 0) {
+            return;
+        } else if (this.startLeft === 0 && this.direction !== 'ltr') {
+            return;
         }
 
         let progress: number = 1 - Math.min(newX / actionsWidth, 1);
@@ -126,6 +137,10 @@ export class Swipeout implements ComponentAttached, ComponentDetached {
     private shiftRightActions(newX: number, actionsWidth: number) {
         let actions: Element | null = this.right.firstElementChild;
         if (actions === null) {
+            return;
+        } else if (this.startLeft > 0) {
+            return;
+        } else if (this.startLeft === 0 && this.direction !== 'rtl') {
             return;
         }
 
@@ -149,6 +164,12 @@ export class Swipeout implements ComponentAttached, ComponentDetached {
         if (event.deltaY >= -5 && event.deltaY <= 5) {
             this.startLeft = this.distanceSwiped();
             this.isActive = true;
+
+            if (event.deltaX > 0) {
+                this.direction = 'ltr';
+            } else if (event.deltaX < 0) {
+                this.direction = 'rtl';
+            }
         }
 
         this.events.publish('swipeout:close');
@@ -160,15 +181,29 @@ export class Swipeout implements ComponentAttached, ComponentDetached {
         }
 
         let [leftActionsWidth, rightActionsWidth] = this.actionWidths();
-
         let newX: number = this.startLeft + event.deltaX;
-        if (newX < -rightActionsWidth) {
+
+        if (this.startLeft === 0 && this.direction === 'ltr' && newX < 0) {
+            // attempting to reveal the right actions after revealing the left actions
+            newX = -reduceSwipe(-newX);
+        } else if (this.startLeft === 0 && this.direction === 'rtl' && newX > 0) {
+            // attempting to reveal the left actions after revealing the right actions
+            newX = reduceSwipe(newX);
+        } else if (this.startLeft < 0 && newX > 0) {
+            // attempting to reveal the right actions after starting with the left actions revealed
+            newX = reduceSwipe(newX);
+        } else if (this.startLeft > 0 && newX < 0) {
+            // attempting to reveal the left actions after starting with the right actions revealed
+            newX = -reduceSwipe(-newX);
+        } else if (newX < -rightActionsWidth) {
+            // overswiping right-to-left
             let extra: number = Math.abs(newX + rightActionsWidth);
-            extra = Math.pow(extra, 0.8);
+            extra = reduceSwipe(extra);
             newX = -(rightActionsWidth + extra);
         } else if (newX > leftActionsWidth) {
+            // overswiping left-to-right
             let extra: number = newX - leftActionsWidth;
-            extra = Math.pow(extra, 0.8);
+            extra = reduceSwipe(extra);
             newX = +(leftActionsWidth + extra);
         }
 
@@ -187,21 +222,17 @@ export class Swipeout implements ComponentAttached, ComponentDetached {
         let currentLeft: number = this.startLeft + event.deltaX;
         let newLeft: number = this.startLeft;
 
-        if (leftActionsWidth !== 0 && this.startLeft === leftActionsWidth && event.deltaX <= -this.threshold) {
-            if (rightActionsWidth !== 0 && currentLeft <= -this.threshold) {
-                newLeft = -rightActionsWidth;
-            } else {
-                newLeft = 0;
-            }
-        } else if (rightActionsWidth !== 0 && this.startLeft === -rightActionsWidth && event.deltaX >= this.threshold) {
-            if (leftActionsWidth !== 0 && currentLeft >= this.threshold) {
-                newLeft = leftActionsWidth;
-            } else {
-                newLeft = 0;
-            }
+        if (this.startLeft > 0 && event.deltaX <= -this.threshold) {
+            // close left actions
+            newLeft = 0;
+        } else if (this.startLeft < 0 && event.deltaX >= this.threshold) {
+            // close right actions
+            newLeft = 0;
         } else if (this.startLeft === 0 && currentLeft >= this.threshold) {
+            // reveal left actions
             newLeft = leftActionsWidth;
         } else if (this.startLeft === 0 && currentLeft <= -this.threshold) {
+            // reveal right actions
             newLeft = -rightActionsWidth;
         }
 
