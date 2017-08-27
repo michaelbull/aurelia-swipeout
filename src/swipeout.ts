@@ -163,9 +163,13 @@ export class Swipeout implements ComponentAttached, ComponentDetached {
 
         let newX: number = this.startLeft + event.deltaX;
         if (newX < -rightActionsWidth) {
-            newX = -rightActionsWidth - Math.pow(-newX - rightActionsWidth, 0.8);
+            let extra: number = Math.abs(newX + rightActionsWidth);
+            extra = Math.pow(extra, 0.8);
+            newX = -(rightActionsWidth + extra);
         } else if (newX > leftActionsWidth) {
-            newX = leftActionsWidth + Math.pow(newX - leftActionsWidth, 0.8);
+            let extra: number = newX - leftActionsWidth;
+            extra = Math.pow(extra, 0.8);
+            newX = +(leftActionsWidth + extra);
         }
 
         this.overlay.style.transform = translateX(newX);
