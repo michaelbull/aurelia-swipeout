@@ -3,7 +3,7 @@
 <p align="center"><a href="https://michaelbull.github.io/aurelia-swipeout/">Demo</a></p>
 <p align="center">
   <a href="#readme">
-    <img src="https://github.com/michaelbull/aurelia-swipeout/blob/master/example/preview.gif?raw=true" alt="Preview" />
+    <img src="https://github.com/michaelbull/aurelia-swipeout/blob/master/example/preview.gif?raw=true" alt="Preview" width="450" height="410" />
   </a>
 </p>
 <br/>
