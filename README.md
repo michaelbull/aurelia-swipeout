@@ -2,7 +2,7 @@
 
 A custom element for iOS style swipeout actions, backed by Hammer.js
 
-[Demo][demo].
+[Demo][demo]
 
 
 <p align="center">
@@ -10,6 +10,7 @@ A custom element for iOS style swipeout actions, backed by Hammer.js
     <img src="https://github.com/michaelbull/aurelia-swipeout/blob/master/preview.gif?raw=true" alt="Preview" />
   </a>
 </p>
+
 
 ## Installation
 
@@ -65,7 +66,7 @@ Below is a simplified usage example:
 
 Which results in the following:
 
-![Example][https://github.com/michaelbull/aurelia-swipeout/blob/master/example.gif?raw=true]
+![Example](https://github.com/michaelbull/aurelia-swipeout/blob/master/example.gif?raw=true)
 
 
 [hammerjs]: http://hammerjs.github.io/
