@@ -7,6 +7,7 @@ $swipeout-action-font-size: 0.9375rem !default;
 $swipeout-action-icon-size: 2.25rem !default;
 
 .swipeout {
+  display: flex;
   position: relative;
   overflow: hidden;
   user-select: none;
