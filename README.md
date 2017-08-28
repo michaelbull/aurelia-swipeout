@@ -68,6 +68,14 @@ Which results in the following:
 
 ![Example](https://github.com/michaelbull/aurelia-swipeout/blob/master/example/simple.gif?raw=true)
 
+## Contributing
+
+Bug reports and pull requests are welcome on [GitHub][github].
+
+## License
+
+This project is available under the terms of the ISC license. See the
+[`LICENSE`](LICENSE) file for the copyright information and licensing terms.
 
 [hammerjs]: http://hammerjs.github.io/
 [demo]: https://michaelbull.github.io/aurelia-swipeout/
@@ -75,3 +83,4 @@ Which results in the following:
 [aurelia]: http://aurelia.io/
 [sass]: http://sass-lang.com/
 [example]: https://github.com/michaelbull/aurelia-swipeout/blob/master/example/app.html#L24
+[github]: https://github.com/michaelbull/aurelia-swipeout
