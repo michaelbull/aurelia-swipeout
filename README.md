@@ -20,7 +20,7 @@ Install the package via [npm][npm]:
 npm install --save aurelia-swipeout
 ```
 
-Install the plugin in your Aurelia project:
+Install the plugin in your [Aurelia][aurelia] project:
 
 ```typescript
 export function configure(aurelia: Aurelia): void {
@@ -28,7 +28,7 @@ export function configure(aurelia: Aurelia): void {
 }
 ```
 
-Import the the [Sass][sass] stylesheet:
+Import the [Sass][sass] stylesheet:
 
 ```sass
 @import '~aurelia-swipeout/style/swipeout';
@@ -72,5 +72,6 @@ Which results in the following:
 [hammerjs]: http://hammerjs.github.io/
 [demo]: https://michaelbull.github.io/aurelia-swipeout/
 [npm]: https://www.npmjs.com/package/aurelia-swipeout
+[aurelia]: http://aurelia.io/
 [sass]: http://sass-lang.com/
 [example]: https://github.com/michaelbull/aurelia-swipeout/blob/master/example/app.html#L24
