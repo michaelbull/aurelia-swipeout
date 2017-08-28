@@ -1,16 +1,11 @@
-# Aurelia Swipeout
-
-A custom element for iOS style swipeout actions, backed by [Hammer.js][hammerjs]
-
-[Demo][demo]
-
-
+<h1 align="center">Aurelia Swipeout</h1>
+<p align="center">A custom element for iOS style swipeout actions, backed by <a href="http://hammerjs.github.io/">Hammer.js</a></p>
+<p align="center"><a href="https://michaelbull.github.io/aurelia-swipeout/">Demo</a></p>
 <p align="center">
   <a href="#readme">
     <img src="https://github.com/michaelbull/aurelia-swipeout/blob/master/example/preview.gif?raw=true" alt="Preview" />
   </a>
 </p>
-
 
 ## Installation
 
@@ -77,8 +72,6 @@ Bug reports and pull requests are welcome on [GitHub][github].
 This project is available under the terms of the ISC license. See the
 [`LICENSE`](LICENSE) file for the copyright information and licensing terms.
 
-[hammerjs]: http://hammerjs.github.io/
-[demo]: https://michaelbull.github.io/aurelia-swipeout/
 [npm]: https://www.npmjs.com/package/aurelia-swipeout
 [aurelia]: http://aurelia.io/
 [sass]: http://sass-lang.com/
