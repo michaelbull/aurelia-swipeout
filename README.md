@@ -1,6 +1,6 @@
 # Aurelia Swipeout
 
-A custom element for iOS style swipeout actions, backed by Hammer.js
+A custom element for iOS style swipeout actions, backed by [Hammer.js][hammerjs]
 
 [Demo][demo]
 
