@@ -59,7 +59,7 @@ Below is a simplified usage example:
   </div>
 
   <div slot="overlay">
-    Hello world
+    Hello World
   </div>
 </swipeout>
 ```
