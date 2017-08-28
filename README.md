@@ -7,7 +7,7 @@ A custom element for iOS style swipeout actions, backed by Hammer.js
 
 <p align="center">
   <a href="#readme">
-    <img src="https://github.com/michaelbull/aurelia-swipeout/blob/master/preview.gif?raw=true" alt="Preview" />
+    <img src="https://github.com/michaelbull/aurelia-swipeout/blob/master/example/preview.gif?raw=true" alt="Preview" />
   </a>
 </p>
 
@@ -66,7 +66,7 @@ Below is a simplified usage example:
 
 Which results in the following:
 
-![Example](https://github.com/michaelbull/aurelia-swipeout/blob/master/example.gif?raw=true)
+![Example](https://github.com/michaelbull/aurelia-swipeout/blob/master/example/simple.gif?raw=true)
 
 
 [hammerjs]: http://hammerjs.github.io/
