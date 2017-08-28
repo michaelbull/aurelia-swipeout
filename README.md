@@ -6,6 +6,7 @@
     <img src="https://github.com/michaelbull/aurelia-swipeout/blob/master/example/preview.gif?raw=true" alt="Preview" />
   </a>
 </p>
+<br/>
 
 ## Installation
 
