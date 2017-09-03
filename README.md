@@ -12,7 +12,7 @@
 
 Install the package via [npm][npm]:
 
-```
+```bash
 npm install --save aurelia-swipeout
 ```
 
