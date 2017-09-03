@@ -54,7 +54,7 @@ Below is a simplified usage example:
     </div>
   </div>
 
-  <div slot="overlay">
+  <div slot="content">
     Hello World
   </div>
 </swipeout>

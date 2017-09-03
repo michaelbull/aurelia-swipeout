@@ -1,5 +1,5 @@
 $swipeout-transition: 300ms !default;
-$swipeout-overlay-background: white !default;
+$swipeout-content-background: white !default;
 $swipeout-action-width: 74px !default;
 $swipeout-action-background: #C7C7CC !default;
 $swipeout-action-font-color: white !default;
@@ -32,9 +32,9 @@ $swipeout-action-icon-size: 2.25rem !default;
   transform: translateX(100%);
 }
 
-.swipeout__overlay {
+.swipeout__content {
   width: 100%;
-  background: $swipeout-overlay-background;
+  background: $swipeout-content-background;
 }
 
 // actions
@@ -110,13 +110,13 @@ $swipeout-action-icon-size: 2.25rem !default;
 
 // transition
 
-.swipeout__overlay,
+.swipeout__content,
 .swipeout__action {
   will-change: transform;
 }
 
 .swipeout--transitioning {
-  .swipeout__overlay,
+  .swipeout__content,
   .swipeout__action {
     transition: transform $swipeout-transition;
   }

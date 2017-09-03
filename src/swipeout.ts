@@ -37,7 +37,7 @@ export class Swipeout implements ComponentAttached, ComponentDetached {
 
     private left: HTMLDivElement;
     private right: HTMLDivElement;
-    private overlay: HTMLDivElement;
+    private content: HTMLDivElement;
 
     private hammer: HammerManager;
     private startLeft: number = 0;
@@ -99,10 +99,10 @@ export class Swipeout implements ComponentAttached, ComponentDetached {
 
             this.hammer.destroy();
             this.isTransitioning = true;
-            this.overlay.addEventListener('transitionend', this.transitionEndListener);
+            this.content.addEventListener('transitionend', this.transitionEndListener);
 
             window.requestAnimationFrame(() => {
-                this.overlay.style.transform = translateX(to);
+                this.content.style.transform = translateX(to);
                 this.shiftLeftActions(to, leftActionsWidth);
                 this.shiftRightActions(to, rightActionsWidth);
             });
@@ -155,9 +155,9 @@ export class Swipeout implements ComponentAttached, ComponentDetached {
     }
 
     private distanceSwiped() {
-        let overlayRect: ClientRect = this.overlay.getBoundingClientRect();
+        let contentRect: ClientRect = this.content.getBoundingClientRect();
         let elementRect: ClientRect = this.element.getBoundingClientRect();
-        return overlayRect.left - elementRect.left;
+        return contentRect.left - elementRect.left;
     }
 
     private startListener: HammerListener = (event: HammerInput) => {
@@ -207,7 +207,7 @@ export class Swipeout implements ComponentAttached, ComponentDetached {
             newX = +(leftActionsWidth + extra);
         }
 
-        this.overlay.style.transform = translateX(newX);
+        this.content.style.transform = translateX(newX);
         this.shiftLeftActions(newX, leftActionsWidth);
         this.shiftRightActions(newX, rightActionsWidth);
     };
@@ -218,7 +218,7 @@ export class Swipeout implements ComponentAttached, ComponentDetached {
         }
 
         let [leftActionsWidth, rightActionsWidth] = this.actionWidths();
-        let oldLeft: number = this.overlay.getBoundingClientRect().left;
+        let oldLeft: number = this.content.getBoundingClientRect().left;
         let currentLeft: number = this.startLeft + event.deltaX;
         let newLeft: number = this.startLeft;
 
@@ -241,7 +241,7 @@ export class Swipeout implements ComponentAttached, ComponentDetached {
     };
 
     private transitionEndListener: EventListener = (): void => {
-        this.overlay.removeEventListener('transitionend', this.transitionEndListener);
+        this.content.removeEventListener('transitionend', this.transitionEndListener);
         this.isTransitioning = false;
         this.createHammer();
     };
