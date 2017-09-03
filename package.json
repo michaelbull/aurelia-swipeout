@@ -36,7 +36,8 @@
     "sass": "node-sass style/swipeout.scss dist/swipeout.css",
     "postcss": "postcss dist/*.css --dir dist",
     "dist": "rimraf dist && npm run tsc && npm run sass && npm run postcss",
-    "deploy": "rimraf build && npm run build && push-dir --dir=build --branch=gh-pages"
+    "deploy": "rimraf build && npm run build && push-dir --dir=build --branch=gh-pages",
+    "prepublish": "npm run dist"
   },
   "dependencies": {
     "hammerjs": "2.0.8"
