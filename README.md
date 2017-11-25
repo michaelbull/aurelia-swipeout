@@ -39,19 +39,15 @@ Below is a simplified usage example:
 ```html
 <swipeout>
   <div slot="left">
-    <div class="swipeout__action">
-      <button class="swipeout__button">
-        My Left Action
-      </button>
-    </div>
+    <button class="swipeout__action">
+      My Left Action
+    </button>
   </div>
 
   <div slot="right">
-    <div class="swipeout__action">
-      <a class="swipeout__button">
-        My Right Action
-      </a>
-    </div>
+    <a class="swipeout__action">
+      My Right Action
+    </a>
   </div>
 
   <div slot="content">

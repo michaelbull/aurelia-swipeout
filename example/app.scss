@@ -14,6 +14,10 @@ $font-family-sans-serif: (
 
 // overwrite some bootstrap styles
 
+.swipeout__action {
+  color: $white !important;
+}
+
 .list-group {
   list-style-type: none;
   margin-bottom: 5em;
