@@ -42,13 +42,14 @@ $swipeout-action-icon-size: 2.25rem !default;
 .swipeout__action {
   display: flex;
   flex-direction: column;
+  box-sizing: content-box;
 
   justify-content: center;
   align-items: center;
 
   padding: 0 0.5em;
-  margin: 0;
   border: 0;
+  margin: 0;
 
   width: $swipeout-action-width;
   height: 100%;
