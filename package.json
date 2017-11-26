@@ -1,6 +1,6 @@
 {
   "name": "aurelia-swipeout",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "A custom element for iOS style swipeout actions, backed by Hammer.js",
   "keywords": [
     "aurelia",
